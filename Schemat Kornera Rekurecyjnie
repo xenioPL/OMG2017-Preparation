@@ -1,0 +1,23 @@
+#include <iostream>
+
+using namespace std;
+int funkcja (int x,int a, int b,int i)
+{
+       cin>>b;
+       if(i > 0)
+       a = b + (a* x);
+       else
+        a = b;
+       cout<<a<<endl;
+       if(i > 2)
+        return 0;
+        funkcja(x,a,b,i+1);
+       return 0;
+}
+int main()
+{
+   int x;
+   cin>>x;
+  funkcja(x,0,0,0);
+    return 0;
+}
