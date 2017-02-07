@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main()
+{
+int n = 0;
+int temp = 0;
+int peron_max = 1;
+cin>>n;
+int side_max = n+5;
+
+vector <bool> tab;
+for(int i = 0;i<n+1;i++)
+    tab.push_back(0);
+for(int i = 1;i<n+1;i++)
+{
+    cin>>temp;
+    if(temp == peron_max)
+    {
+        peron_max++;
+        while(tab[peron_max] == 1)
+            peron_max++;
+    }
+    else
+    {
+        if(temp < side_max)
+        {
+            side_max = temp;
+            tab[temp] = 1;
+        }
+        else
+        {
+            cout<<"NIE";
+            return 0;
+        }
+    }
+}
+cout<<"TAK";
+    return 0;
+}
