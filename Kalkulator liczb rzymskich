@@ -1,0 +1,175 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int rom_to_dec(string rom)
+{
+    int dec = 0;
+    for(int i = 0;i<rom.length();i++)
+    {
+        switch(rom[i])
+        {
+            case 'I':
+            {
+                dec++;
+                break;
+            }
+            case 'V':
+            {
+                if(i > 0)
+                if(rom[i-1] == 'I' )
+                    dec -= 2;
+                dec += 5;
+                break;
+            }
+            case 'X':
+            {
+                if(i > 0)
+                if(rom[i-1] == 'I' )
+                    dec -= 2;
+                dec+= 10;
+                break;
+            }
+            case 'L':
+            {
+                if(i > 0)
+                if(rom[i-1] == 'X' )
+                    dec -= 20;
+                dec += 50;
+                break;
+            }
+            case 'C':
+            {
+                if(i > 0)
+                if(rom[i-1] == 'X' )
+                    dec -= 20;
+                dec+=100;
+                break;
+            }
+            case 'D':
+            {
+                if(i > 0)
+                if(rom[i-1] == 'C' )
+                    dec -= 200;
+                dec += 500;
+                break;
+            }
+            case 'M':
+            {
+                if(i > 0)
+                if(rom[i-1] == 'C' )
+                    dec -= 200;
+                dec += 1000;
+                break;
+            }
+
+        }
+    }
+    return dec;
+}
+void dec_to_rom(int dec)
+{
+    while(dec >= 1000)
+    {
+        cout<<"M";
+        dec -= 1000;
+    }
+    if(dec >= 900)
+    {
+        cout<<"CM";
+        dec -= 900;
+    }
+    while(dec >= 500)
+    {
+        cout<<"D";
+        dec -= 500;
+    }
+    if(dec >= 400)
+    {
+        cout<<"CD";
+        dec -= 400;
+    }
+    while(dec >= 100)
+    {
+        cout<<"C";
+        dec -= 100;
+    }
+    if(dec >= 90)
+    {
+        cout<<"XC";
+        dec -= 90;
+    }
+    while(dec >= 50)
+    {
+        cout<<"L";
+        dec -= 50;
+    }
+    if(dec >= 40)
+    {
+        cout<<"XL";
+        dec -= 40;
+    }
+    while(dec >= 10)
+    {
+        cout<<"X";
+        dec -= 10;
+    }
+    if(dec >= 9)
+    {
+        cout<<"IX";
+        dec -= 9;
+    }
+    while(dec >= 5)
+    {
+        cout<<"V";
+        dec -= 5;
+    }
+    if(dec >= 4)
+    {
+        cout<<"IV";
+        dec -= 4;
+    }
+    while(dec >= 1)
+    {
+        cout<<"I";
+        dec -= 1;
+    }
+}
+int main()
+{
+char znak = 'a';
+string liczba_pierwsza = "anb";
+string liczba_druga = "a";
+while(cin>>znak)
+{
+    cin>>liczba_pierwsza;
+    cin>>liczba_druga;
+    switch(znak)
+    {
+    case '+':
+        {
+            dec_to_rom(rom_to_dec(liczba_pierwsza)+rom_to_dec(liczba_druga));
+            break;
+        }
+        case '-':
+        {
+            dec_to_rom(rom_to_dec(liczba_pierwsza)-rom_to_dec(liczba_druga));
+            break;
+        }
+        case '*':
+        {
+            dec_to_rom(rom_to_dec(liczba_pierwsza)*rom_to_dec(liczba_druga));
+            break;
+        }
+        case '/':
+        {
+            dec_to_rom(rom_to_dec(liczba_pierwsza)/rom_to_dec(liczba_druga));
+            cout<<" ";
+            dec_to_rom(rom_to_dec(liczba_pierwsza)%rom_to_dec(liczba_druga));
+            break;
+        }
+    }
+    cout<<endl;
+}
+    return 0;
+}
