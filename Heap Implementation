@@ -1,0 +1,120 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+vector <int> heap;
+int heap_fix_down(int i)
+{
+    int length = heap.size();
+    int leftson = 2*i+1;
+    int rightson = 2*i+2;
+    int minin = 0;
+    if(leftson < length && heap[leftson] < heap[i] )
+        minin = leftson;
+    if(rightson < length && heap[rightson] < heap[minin])
+        minin = rightson;
+    if(minin != 0)
+    {
+    int temp = heap[minin];
+    heap[minin] = heap[i];
+    heap[i] = temp;
+
+    heap_fix_down(minin);
+    }
+    else
+    {
+    return 0;
+    }
+    return 0;
+}
+void print()
+{
+    for(int i =0;i<heap.size();i++)
+        cout<<heap[i]<<" ";
+}
+void heap_fix_up(int num)
+{
+    int parent = (num-1)/2;
+    while(heap[parent] > heap[num])
+    {
+        int temp = heap[parent];
+        heap[parent] = heap[num];
+        heap[num] = temp;
+        num = parent;
+        parent = (num-1)/2;
+    }
+}
+void insert_heap(int i)
+{
+    heap.push_back(i);
+    int num = heap.size() - 1;
+    heap_fix_up(num);
+
+}
+
+void delete_heap(int i)
+{
+    if(heap[i] < heap.back())
+    {
+    heap[i] = heap.back();
+    heap.pop_back();
+    heap_fix_down(i);
+    }
+    else
+    {
+        heap[i] = heap.back();
+        heap.pop_back();
+        heap_fix_up(i);
+    }
+}
+int main()
+{
+int n = 0;
+int k = 0;
+cin>>k>>n;
+
+for(int temp,i = 0;i<n;i++)
+{
+    cin>>temp;
+    heap.push_back(temp);
+}
+    int length = heap.size();
+    for(int i = length;i > 0;i--)
+        heap_fix_down(i-1);
+    char temp = 'a';
+for(int i = 0;i<k;i++)
+{
+    cin>>temp;
+    switch(temp)
+    {
+    case 'w':
+        {
+          print();
+          cout<<endl;
+          break;
+        }
+    case 'a':
+        {
+            int temp2;
+            cin>>temp2;
+          insert_heap(temp2);
+          break;
+        }
+    case 'y':
+        {
+            int temp2;
+            cin>>temp2;
+          delete_heap(temp2);
+          break;
+        }
+    case 'd':
+        {
+          delete_heap(0);
+          break;
+        }
+    }
+}
+
+
+    return 0;
+}
