@@ -1,0 +1,99 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+vector <int> circle;
+int local(int position,int way,bool direction)//direction 0 to idziemy w lewo direction == 1 gdy w prawo
+{
+    way %= circle.size();
+if(direction == 0)
+{
+    if(position - way > -1)
+        return position-way;
+    else
+        return circle.size()+position-way;
+}
+else
+{
+    if(position + way < circle.size())
+    {
+        return position+way;
+    }
+    else
+        return position + way - circle.size() ;
+}
+}
+void add(int position,int addon)
+{
+    if(position == circle.size()-1 || circle.size() == 0) circle.push_back(addon);
+    else
+    circle.insert(circle.begin()+position+1,addon);
+}
+int main()
+{
+int position = 0;
+int n;
+cin>> n;
+while(n--)
+{
+char temp;
+int specs;
+cin>>temp>>specs;
+switch(temp)
+{
+case '+':
+    {
+        if(circle.size() != 0)
+        {
+        position = local(position,specs,1);
+        }
+        break;
+    }
+case '-':
+    {
+        if(circle.size() != 0)
+        {
+        position = local(position,specs,0);
+        }
+        break;
+    }
+case 'a':
+    {
+        add(position,specs);
+        break;
+    }
+case 'd':
+    {
+        if(circle.size() != 0)
+        {
+        circle.erase(circle.begin()+position);
+        if(circle.size() != 0)
+        position = local(position,1,0);
+        }
+        break;
+    }
+case 'z':
+    {
+        if(circle.size() != 0)
+        {
+        circle[position] = specs;
+        }
+        break;
+    }
+}
+}
+/*
+for(int i =0;i<circle.size();i++)
+{
+    cout<<" "<<circle[i];
+    if(i == position) cout<<"*";
+}
+cout<<endl;
+*/
+for(int i =0;i<circle.size();i++)
+{
+    cout<<circle[local(position,i,1)]<<" ";
+}
+    return 0;
+}
