@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+vector <int> rafinery;
+
+int main()
+{
+int y_max = 0;
+int y_min = 999999;
+int suma = 0;
+int n = 0;
+cin>>n;
+int temp = 0;
+for(int i =0;i<n+1;i++)
+{
+
+    cin>>temp;
+    if(temp > y_max) y_max = temp;
+    if(temp < y_min) y_min = temp;
+    cin>> temp;
+    rafinery.push_back(temp);
+}
+sort(rafinery.begin(),rafinery.end());
+int middle = 0;
+if(rafinery.size()% 2 == 1)
+    middle = rafinery[((rafinery.size()+1)/2)];
+else
+    middle = (rafinery[rafinery.size()/2] + rafinery[(rafinery.size()/2) +1]) / 2;
+middle --;
+for(int i = 0;i<rafinery.size();i++)
+{
+    if(rafinery[i] > middle)
+        suma += rafinery[i] - middle;
+    else
+        suma += middle - rafinery[i];
+}
+suma += y_max - y_min;
+cout<<suma;
+    return 0;
+}
