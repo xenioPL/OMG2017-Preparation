@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+vector <int> smallest;
+vector <int> biggest;
+int main()
+{
+unsigned long long int suma = 0;
+int n,k,temp;
+cin>>n;
+for(int i =0;i<n;i++)
+{
+
+    cin>>k;
+    for(int j =0;j<k;j++)
+    {
+        cin>>temp;
+        if(smallest.size() == 0)
+        {
+            smallest.push_back(temp);
+        }
+        else
+        {
+            if(temp <= smallest.back())
+            {
+                smallest.push_back(temp);
+
+            }
+            else
+                for(int k = 0;1;k++)
+            {
+                if( smallest[k] < temp)
+                {
+                    smallest.insert(smallest.begin()+k,temp);
+                break;
+                }
+            }
+
+        }
+
+        if(biggest.size() == 0)
+        {
+            biggest.push_back(temp);
+        }
+        else
+        {
+            if(temp >= biggest.back())
+            {
+                biggest.push_back(temp);
+            }
+            else
+                for(int k = 0;1;k++)
+            {
+                if(biggest[k] > temp)
+                {
+                    biggest.insert(biggest.begin()+k,temp);
+                break;
+                }
+            }
+        }
+    }
+    suma += biggest.back() - smallest.back();
+    biggest.erase(biggest.begin());
+    biggest.pop_back();
+    smallest.erase(smallest.begin());
+    smallest.pop_back();
+}
+cout<<suma;
+    return 0;
+}
