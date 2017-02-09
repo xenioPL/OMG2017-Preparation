@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+vector <vector <int> > graph;
+int way(int place,int ending,int last_seen,int way_count)
+{
+    if (place == ending) return way_count;
+    int mini = 1999999;
+for(int i = 0;i<graph[place].size();i++)
+{
+
+    if(graph[place][i] != last_seen)
+    {
+        int temp =  way(graph[place][i],ending,place,way_count + 1);
+       if(temp < mini) mini = temp;
+    }
+}
+return mini;
+}
+
+int main()
+{
+int n,x,y,m;
+long long int suma = 0;
+cin>>n;
+vector <int> a;
+for(int i =0;i<n+1;i++)graph.push_back(a);
+for(int i =0;i<n-1;i++)
+{
+ cin>>x>>y;
+ graph[x].push_back(y);
+ graph[y].push_back(x);
+}
+cin>>m;
+int starting = 1;
+int ending;
+while(m--)
+{
+    cin>>ending;
+    int temp = way(starting,ending,0,0);
+    suma += temp;
+    starting = ending;
+}
+cout<<suma;
+    return 0;
+}
