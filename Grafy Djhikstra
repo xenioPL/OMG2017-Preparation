@@ -1,50 +1,87 @@
 #include <iostream>
+#include <string>
 #include <vector>
-using namespace std;
-vector<vector<int> >G;
-int n,m,v,u,z;
+#include <algorithm>
+using namespace std ;
+vector <vector <int> > graph;
+vector <int> values;
+vector <int> seen;
 
-int tab[100][2];
-
-int DFS(int wierzholek)
+int smallest_not_seen()
 {
-    tab[wierzholek][0] = 1;
-    for(int i =1;i < n;i++)
-        if(G[wierzholek][i] > 0 && tab[i][0] == 0)
+    int mini = 999999;
+    int mini_index = -1;
+    for(int i =0;i<values.size();i++)
     {
-        if(tab[i][1] > G[wierzholek][i] + tab[wierzholek][1] || tab[i][1] == 0)
-            tab[i][1] = G[wierzholek][i]+ tab[wierzholek][1];
+        if(seen[i] == 0)
+        if(mini > values[i])
+        {
+            mini = values[i];
+            mini_index = i;
+        }
+
     }
-     for(int i =1;i < n;i++)
-        if(G[wierzholek][i] > 0 && tab[i][0] == 0)
+    return mini_index;
+}
+
+int djikstra(int place,int finish)
+{
+    if(place == finish)
     {
-        DFS(i);
+        cout<<values[place]<<endl;
+        return 0;
     }
-return 0;
+    if(place == -1)
+    {
+        cout<<"nie ma"<<endl;
+        return 0;
+    }
+seen[place] = 1;
+ for(int i =0;i<graph[place].size();i += 2)
+ {
+     if(values[graph[place][i]] > values[place] + graph[place][i+1])
+     {
+     values[graph[place][i]] = values[place] + graph[place][i+1];
+     }
+ }
+ int temp = smallest_not_seen();
+    return djikstra(temp,finish);
+
 }
 
-int main(){
-
-cout<<"Podaj najpierw ilosc punktuf a potem ilosc lini: "<<endl;
-cin>>n>>m; 
-
-G.resize(n);
-for(int i=0;i<n;i++)
+int main()
 {
-    G[i].resize(n);
-        for(int j=0;j<n;j++)
-            G[i][j]=0;
+int n,x,y,m,z;
+long long int suma = 0;
+cin>>n>>m;
+vector <int> a;
+for(int i =0;i<n;i++)
+{graph.push_back(a);
+values.push_back(999999);
+seen.push_back(0);
 }
-cout<<"Podaj najpierw punkt pierwszy potem drugi a na koniec wartosc: "<<endl;
-for(int i=0;i<m;i++){
-cin>>v>>u>>z;
-G[u][v] = z;
-G[v][u] = z;
-}
-DFS(0);
-for(int i = 0; i < n;i++)
+
+for(int i = 0;i<m;i++)
 {
-    cout<<"Droga od 0 do "<<i<<" to "<<tab[i][1]<<endl;
+ cin>>x>>y>>z;
+ graph[x].push_back(y);
+ graph[x].push_back(z);
+ graph[y].push_back(x);
+ graph[y].push_back(z);
 }
-return 0;
+int k;
+cin>>k;
+while(k--)
+{
+for(int i =0;i<n;i++)
+{
+values[i]=999999;
+seen[i]=0;
+}
+cin>>x>>y;
+values[x] = 0;
+djikstra(x,y);
+}
+
+    return 0;
 }
