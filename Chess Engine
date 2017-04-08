@@ -1,0 +1,162 @@
+#include <iostream>
+
+using namespace std;
+#define B_K   -6 //król
+#define B_D   -5 //hetman
+#define B_S   -4 //koń
+#define B_L   -3 //goniec
+#define B_T   -2 // wierza
+#define B_B   -1 //pionek
+#define EMPTY   0
+#define W_B    1
+#define W_T    2
+#define W_L    3
+#define W_S    4
+#define W_D    5
+#define W_K    6
+#define OUT 100
+
+int chess[12][12]{
+OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,
+OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,
+OUT,OUT,W_T, W_S ,W_L ,W_D ,W_K ,W_L ,W_S ,W_T, OUT,OUT,
+OUT,OUT,W_B, W_B ,W_B ,W_B ,W_B ,W_B ,W_B ,W_B, OUT,OUT,
+OUT,OUT,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,OUT,OUT,
+OUT,OUT,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,OUT,OUT,
+OUT,OUT,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,OUT,OUT,
+OUT,OUT,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,OUT,OUT,
+OUT,OUT,B_B ,B_B ,B_B ,B_B ,B_B ,B_B ,B_B ,B_B, OUT,OUT,
+OUT,OUT,B_T, B_S ,B_L ,B_D ,B_K ,B_L ,B_S ,B_T, OUT,OUT,
+OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,
+OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT};
+
+void wypisz (){
+    for(int i =2;i<10;i++)
+{
+    for(int j =2;j<10;j++)
+        if(chess[i][j]>-1)
+    cout<<" "<<chess[i][j]<<" ";
+    else
+        cout<<chess[i][j]<<" ";
+    cout<<endl;
+}
+};
+int moving(int x1,int y1,int x2,int y2,int collor){
+    if(x1 == x2 && y1 == y2)
+    {
+        cout<<"ERROR: YOU HAVE TO MOVE"<<endl;
+        return 0;
+    }
+    if(chess[x1+2][y1+2] == EMPTY)
+{
+    cout<<"ERROR: THERE IS NO PIECE HERE"<<endl;
+    return 0;
+}
+
+    if(chess[x1+2][y1+2] == OUT)
+{
+    cout<<"ERROR: THERE CAN NOT BE PIECE OUTSIDE OF BOARD"<<endl;
+    return 0;
+}
+if(chess[x2+2][y2+2] == OUT)
+{
+    cout<<"ERROR: YOU CAN'T MOVE OUT OF CHESSBOARD"<<endl;
+    return 0;
+}
+if(collor == -1) //sprawdzenie koloru
+{
+    if(chess[x1+2][y1+2] > 0)
+    {
+        cout<<"ERROR: THAT'S NOT YOUR PIECE TO MOVE"<<endl;
+    return 0;
+    }
+if(chess[x2+2][y2+2] > -1)
+{
+chess[x2+2][y2+2] = chess[x1+2][y2+2];
+chess[x1+2][y2+2] = EMPTY;
+return 1;
+}
+else
+{
+    cout<<"ERROR:This place is occupied by your own piece"<<endl;
+    return 0;
+}
+}
+else
+{
+    if(chess[x1+2][y1+2] < 0)
+    {
+        cout<<"ERROR: THAT'S NOT YOUR PIECE TO MOVE"<<endl;
+    return 0;
+    }
+    if(chess[x2+2][y2+2] < 1)
+{
+chess[x2+2][y2+2] = chess[x1+2][y2+2];
+chess[x1+2][y2+2] = EMPTY;
+return 1;
+}
+else
+{
+    cout<<"ERROR:This place is occupied by your own piece"<<endl;
+    return 0;
+}
+}
+};
+int legal (int x1,int y1,int x2,int y2,int collor){
+    int piece_type = chess[x1+2][y1+2];
+    if (piece_type == 1 || piece_type == -1 ){
+
+
+        if(collor == 1)
+        {
+            if(y1 == y2)
+            {
+            if(x2 - x1 == 1)return 1;
+            if(x1 == 1 && x2 == 3)return 1;
+            }
+            if(y2 -y1 == 1 || y2 - y1 == -1)
+            if(x2 - x1 == 1) return 1;
+            return 0;
+            }
+        else
+        {
+            if(y1 == y2)
+            {
+            if(x2 - x1 == -1)return 1;
+            if(x1 == 6 && x2 == 4)return 1;
+            }
+            if(y2 -y1 == 1 || y2 - y1 == -1)
+            if(x2 - x1 == -1) return 1;
+            return 0;
+            }
+    }
+    if (piece_type == 2 || piece_type == -2){
+            if(x1 == x2)
+            {
+                        
+            }
+            if(y1 == y2)
+            {
+                
+            }
+        return 0;
+    }
+
+return 0;
+};
+int x1,y1,x2,y2;
+int main(){
+    wypisz();
+    int collor = 1;
+    while(1)
+    {
+        cin>>x1>>y1>>x2>>y2;
+ if (moving(x1,y1,x2,y2,collor))
+ {
+     collor *= -1;
+wypisz();
+ }
+    }
+
+    return 0;
+}
