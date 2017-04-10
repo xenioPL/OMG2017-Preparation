@@ -30,6 +30,7 @@ OUT,OUT,B_T, B_S ,B_L ,B_D ,B_K ,B_L ,B_S ,B_T, OUT,OUT,
 OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,
 OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT,OUT};
 
+int legal(int x1,int y1,int x2,int y2,int collor);
 void wypisz (){
     for(int i =2;i<10;i++)
 {
@@ -65,23 +66,30 @@ if(chess[x2+2][y2+2] == OUT)
 }
 if(collor == -1) //sprawdzenie koloru
 {
-    if(chess[x1+2][y1+2] > 0)
-    {
+if(chess[x1+2][y1+2] > 0){
         cout<<"ERROR: THAT'S NOT YOUR PIECE TO MOVE"<<endl;
     return 0;
     }
-if(chess[x2+2][y2+2] > -1)
-{
-chess[x2+2][y2+2] = chess[x1+2][y2+2];
-chess[x1+2][y2+2] = EMPTY;
+if(chess[x2+2][y2+2] > -1){
+        if(legal(x1,y1,x2,y2,collor))
+    {
+chess[x2+2][y2+2] = chess[x1+2][y1+2];
+chess[x1+2][y1+2] = EMPTY;
 return 1;
 }
 else
 {
-    cout<<"ERROR:This place is occupied by your own piece"<<endl;
+    cout<<"ERROR: THAT'S ILEGALL MOVE"<<endl;
     return 0;
 }
 }
+else{
+    cout<<"ERROR:This place is occupied by your own piece"<<eif(chess[x2+2][y2+2] == EMPTY)ndl;
+    return 0;
+}
+}
+
+
 else
 {
     if(chess[x1+2][y1+2] < 0)
@@ -91,9 +99,17 @@ else
     }
     if(chess[x2+2][y2+2] < 1)
 {
-chess[x2+2][y2+2] = chess[x1+2][y2+2];
-chess[x1+2][y2+2] = EMPTY;
+    if(legal(x1,y1,x2,y2,collor))
+    {
+chess[x2+2][y2+2] = chess[x1+2][y1+2];
+chess[x1+2][y1+2] = EMPTY;
 return 1;
+}
+else
+{
+    cout<<"ERROR: THAT'S ILEGALL MOVE"<<endl;
+    return 0;
+}
 }
 else
 {
@@ -102,29 +118,35 @@ else
 }
 }
 };
+
+
+
 int legal (int x1,int y1,int x2,int y2,int collor){
     int piece_type = chess[x1+2][y1+2];
-    if (piece_type == 1 || piece_type == -1 ){
-
+    if (piece_type == 1 || piece_type == -1){
 
         if(collor == 1)
         {
+            if(chess[x2+2][y2+2] == EMPTY)
             if(y1 == y2)
             {
             if(x2 - x1 == 1)return 1;
             if(x1 == 1 && x2 == 3)return 1;
             }
+            if(chess[x2+2][y2+2] != EMPTY)
             if(y2 -y1 == 1 || y2 - y1 == -1)
             if(x2 - x1 == 1) return 1;
             return 0;
             }
         else
         {
+            if(chess[x2+2][y2+2] == EMPTY)
             if(y1 == y2)
             {
             if(x2 - x1 == -1)return 1;
             if(x1 == 6 && x2 == 4)return 1;
             }
+            if(chess[x2+2][y2+2] != EMPTY)
             if(y2 -y1 == 1 || y2 - y1 == -1)
             if(x2 - x1 == -1) return 1;
             return 0;
@@ -133,17 +155,43 @@ int legal (int x1,int y1,int x2,int y2,int collor){
     if (piece_type == 2 || piece_type == -2){
             if(x1 == x2)
             {
-                        
+                if(y1 > y2)
+                {
+                    for(int i = y1-y2;i < 0;i--)
+                        if(chess[x1+2][y2+i+2] == EMPTY) return 0;
+                }
+                else
+                {
+                        for(int i = y2-y1;i < 0;i--)
+                        if(chess[x1+2][y1+i+2] == EMPTY) return 0;
+                }
+                return 1;
             }
             if(y1 == y2)
             {
-                
+                if(x1 > x2)
+                {
+                    for(int i = x1-x2;i < 0;i--)
+                        if(chess[x2+2+i][y2+2] == EMPTY) return 0;
+                }
+                else
+                {
+                        for(int i = x2-x1;i < 0;i--)
+                        if(chess[x1+2+i][y1+2] == EMPTY) return 0;
+                }
+                return 1;
+
             }
         return 0;
     }
 
-return 0;
+return 1;
 };
+
+
+
+
+
 int x1,y1,x2,y2;
 int main(){
     wypisz();
